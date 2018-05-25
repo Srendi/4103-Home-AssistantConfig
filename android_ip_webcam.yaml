@@ -1,0 +1,33 @@
+- host: !secret ip_webcam_01_IP
+  port: !secret ip_webcam_01_PORT
+  username: !secret ip_webcam_01_USER
+  password: !secret ip_webcam_01_PASS
+  name: ip_webcam_01
+  scan_interval: 5
+  sensors:
+    - audio_connections
+    - battery_level
+    - battery_temp
+    - battery_voltage
+    - light
+    - motion
+    - pressure
+    - proximity
+    - sound
+    - video_connections
+  switches:
+    - exposure_lock
+    - ffc
+    - focus
+    - gps_active
+    - night_vision
+    - overlay
+    - torch
+    - whitebalance_lock
+    - video_recording
+# - host: 192.168.1.203
+#   port: 8000
+#   sensors:
+#     - light
+#   switches:
+#     - torch

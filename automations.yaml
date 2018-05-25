@@ -1,0 +1,103 @@
+- id: '1526229268645'
+  alias: Update Kodi Libraries
+  trigger:
+  - platform: time
+    at: 01:00:00
+  condition: []
+  action:
+  - service: script.update_library
+- id: auto00001
+  alias: Enable First Morning Trigger
+  trigger:
+  - platform: time
+    at: '5:00'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_first_morning
+- id: auto00002
+  alias: Disable First Morning Trigger
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 01:00:00
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_first_morning
+- id: auto00004
+  alias: Rain is over
+  trigger:
+    platform: state
+    entity_id: sensor.dark_sky_precip_type
+    to: none
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: -01:00:00
+  action:
+    service: notify.html5
+    data:
+      message: Rain stopped, lights off
+- id: auto00005
+  alias: Rainy Day
+  trigger:
+    platform: state
+    entity_id: sensor.dark_sky_precip_type
+    to: rain
+  condition:
+  - condition: state
+    entity_id: group.phones
+    state: home
+  - condition: time
+    after: '14:00:00'
+    before: '23:00:00'
+  action:
+    service: notify.html5
+    data:
+      message: It's Raining, lights on
+- id: auto00006
+  alias: Update Available Notifications
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    service: notify.notify
+    data:
+      message: Update for Home Assistant is available.
+- id: auto00007
+  alias: IP Changed
+  trigger:
+    platform: state
+    entity_id: sensor.external_ip
+  action:
+    service: script.notify
+    data_template:
+      notify_text: 'The external IP address has changed to: ''{{ states.sensor.external_ip.state
+        }}'''
+      notify_mobile: true
+      is_warning: true
+- id: auto00008
+  alias: Turn on room light when there is movement
+  trigger:
+  - above: '40'
+    entity_id: sensor.ip_webcam_01_motion
+    platform: numeric_state
+    value_template: '{{ float(state.state) }}'
+  condition:
+  - after: '23:59:00'
+    before: 06:00:00
+    condition: time
+  action:
+  - entity_id: switch.ip_webcam_01_torch
+    service: switch.turn_on
+- id: auto00009
+  alias: Turn off room light 1 minutes after last movement
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.ip_webcam_01_motion
+    value_template: '{{ float(state.state) }}'
+    below: 40
+    for:
+      minutes: 1
+  action:
+    service: switch.turn_off
+    entity_id: switch.ip_webcam_01_torch
