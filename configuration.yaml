@@ -1,0 +1,212 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: !secret homeassistant_name
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret homeassistant_latitude
+  longitude: !secret homeassistant_longitude
+  elevation: !secret homeassistant_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # C for Celcius, F for Fahrenheit
+  temperature_unit: C
+  # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret homeassistant_time_zone
+  # Customization file
+  customize: !include customize.yaml
+  #customize_glob: !include customize_glob.yaml
+  #customize_domain: !include customize_domain.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Shopping list intent
+# https://www.home-assistant.io/components/shopping_list/
+shopping_list:
+
+# Enables the frontend
+frontend:
+  javascript_version: latest
+#  themes:
+
+# Enables configuration UI
+config:
+
+api:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  base_url: !secret http_base_url
+  # SSL
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  cors_allowed_origins:
+    - https://google.com
+    - https://www.home-assistant.io
+  use_x_forwarded_for: true
+  # Passwordless access
+  trusted_networks: !secret home_trusted_networks
+  # Prevent too many failed login attempes
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
+
+# Add Wake on LAN Powers to HASS
+wake_on_lan:
+
+# Google Calendar
+google:
+  client_id: !secret google_calender_CLIENT_ID
+  client_secret: !secret google_calender_CLIENT_SECRET
+  track_new_calendar: true
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  include_used_components: true
+
+# avahi, bonjour, zeroconf, rendezvous
+zeroconf:
+
+# Download files into dowload dir
+downloader:
+  download_dir: !secret home_assistant_download_dir
+
+# Discover some devices automatically
+discovery:
+  enable:
+    # - homekit
+
+ifttt:
+  key: !secret ifttt_key
+
+# ffmpeg
+ffmpeg:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Logging
+logger:
+  default: warn
+  logs:
+    homeassistant.components.http.ban: warning
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google
+
+# Shellinabox
+panel_iframe:
+  web_terminal:
+    title: 'Web terminal'
+    icon: mdi:console
+    url: !secret shell_URL
+
+# Embedded MQTT Broker
+mqtt:
+  # embedded:
+  #  listeners:
+  #    default:
+  #      bind: 0.0.0.0:1883
+  broker: localhost
+  port: !secret mqtt_PORT
+  username: !secret mqtt_USER
+  password: !secret mqtt_PASS
+  #certificate: !secret mqtt_CACERT
+  tls_insecure: true
+  # discovery: true
+  # discovery_prefix: homeassistant
+  # birth_message:
+  #   topic: 'hass/status'
+  #   payload: 'online'
+  # will_message:
+  #   topic: 'hass/status'
+  #   payload: 'offline'
+
+google_assistant:
+  project_id: !secret google_assistant_PROJECT_ID
+  client_id: !secret google_assistant_CLIENT_ID
+  access_token: !secret google_assistant_ACCESS_TOKEN
+  agent_user_id: !secret google_assistant_AGENT_USER_ID
+  api_key: !secret google_assistant_API_KEY
+  expose_by_default: true
+  # exposed_domains:
+  #   - switch
+  #   - light
+  #   - group
+  # entity_config:
+  #   switch.kitchen:
+  #     name: Custom Name for Google Assistant
+  #     aliases:
+  #       - bright lights
+  #       - entry lights
+  #   light.living_room:
+  #     expose: false
+  #     room: living room
+
+# Apple HomeKit and Siri Control
+# homekit:
+#   auto_start: false
+
+# Google Assistant Speach Thing
+# https://www.home-assistant.io/components/dialogflow/
+# https://github.com/home-assistant/home-assistant.github.io/blob/next/source/assets/HomeAssistant_APIAI.zip
+# (Imported into Dialogueflow website)
+dialogflow:
+
+notify:
+  - name: HASS_Chrome_Notifier
+    platform: html5
+    gcm_api_key: !secret gcm_server_key
+    gcm_sender_id: !secret gcm_sender_id
+
+android_ip_webcam: !include android_ip_webcams.yaml
+
+
+########### INCLUDES #####
+# alert: !include_dir_merge_named alerts/
+#automation: !include_dir_list automations/*.yaml
+automation: !include automations.yaml
+# cover: !include_dir_list covers/
+input_boolean: !include misc/input_boolean.yaml
+# input_select: !include misc/input_select.yaml
+scene: !include_dir_list scenes/
+# Input_slider broken
+# input_slider: !include misc/input_slider.yaml
+binary_sensor: !include_dir_list binary_sensors/
+# device_sun_light_trigger: !include device_sun_light_trigger.yaml
+device_tracker: !include device_trackers/all_trackers.yaml
+cloud: !include cloud.yaml
+conversation: !include_dir_list voice/intents/*.yaml
+sensor: !include_dir_list sensors/
+# light: !include_dir_list lights/
+# shell_command: !include misc/shell_commands.yaml
+switch: !include_dir_list switches/
+script: !include_dir_merge_named scripts/
+
+# To do: Separate intent_scripts into dir_list
+# intent_script: !include_dir_list voice/intent_scripts/
+intent_script: !include_dir_merge_named voice/intent_scripts/
+alexa: !include_dir_list voice/alexa/
+
+# To do: Cleanup & Separate groups
+group: !include groups.yaml
+weather: !include_dir_list weather/
+weblink: !include misc/weblinks.yaml
+zone: !include_dir_list zones/
+camera: !include_dir_list cameras/
+media_player: !include media_players/mediaplayers.yaml

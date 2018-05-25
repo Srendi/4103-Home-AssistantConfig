@@ -1,0 +1,10 @@
+name: Livingroom dim
+entities:
+light.light1:
+    state: on
+    transition: 2
+    brightness_pct: 30
+light.light2:
+    state: on
+    transition: 2
+    brightness_pct: 55

@@ -1,0 +1,5 @@
+name: "Rose's WOrk"
+latitude: !secret rose_work_latitude
+longitude: !secret rose_work_longitude
+radius: 200
+icon: mdi:briefcase

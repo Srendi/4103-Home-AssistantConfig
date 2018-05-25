@@ -1,0 +1,9 @@
+platform: group
+name: All_Covers
+entities:
+  - cover.loungeroom_window
+  - cover.kitchen_window
+  - cover.sparebedroom_window
+  - cover.bathroom_window
+  - cover.bedroom_left_window
+  - cover.bedroom_right_window 

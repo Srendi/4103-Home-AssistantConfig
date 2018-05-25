@@ -1,0 +1,41 @@
+- platform: kodi
+  # BedKodi
+  name: bedkodi
+  host: !secret bedkodi_HOST
+  username: !secret bedkodi_USER
+  password: !secret bedkodi_PASS
+  turn_on_action:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        # WiFi?
+        mac: !secret bedkodi_MAC
+        broadcast_address: !secret LAN_BROADCAST
+  turn_off_action:
+    service: media_player.kodi_call_method
+    data:
+      entity_id: media_player.bedkodi
+      method: System.Shutdown
+
+- platform: kodi
+  # LoungeKodi
+  name: loungekodi
+  host: !secret loungekodi_HOST
+  username: !secret loungekodi_USER
+  password: !secret loungekodi_PASS
+  turn_on_action:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        # WiFi?
+        mac: !secret loungekodi_MAC
+        broadcast_address: !secret LAN_BROADCAST
+  turn_off_action:
+    service: media_player.kodi_call_method
+    data:
+      entity_id: media_player.loungekodi
+      method: System.Shutdown
+
+- platform: gpmdp
+  host: !secret laptop_IP
+  name: !secret laptop_NAME
+
+- platform: cast

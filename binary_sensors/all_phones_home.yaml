@@ -1,0 +1,31 @@
+platform: template
+sensors:
+  gavin_presence:
+    friendly_name: 'Gavin Presence'
+    entity_picture_template: /local/icons/gavin.jpg
+    value_template: "{{ is_state('group.phone_group_gavin', 'home') }}"
+
+  rae_presence:
+    friendly_name: 'Rae Presence'
+    entity_picture_template: /local/icons/rae.jpg
+    value_template: "{{ is_state('group.phone_group_rae', 'home') }}"
+
+  claud_presence:
+    friendly_name: 'Claud Presence'
+    entity_picture_template: /local/icons/claud.png
+    value_template: "{{ is_state('group.phone_group_claud', 'home') }}"
+
+  lily_presence:
+    friendly_name: 'Lily Presence'
+    entity_picture_template: /local/icons/lily.jpg
+    value_template: "{{ is_state('group.phone_group_lily', 'home') }}"
+
+  lynne_presence:
+    friendly_name: 'Lynne Presence'
+    entity_picture_template: /local/icons/mum.png
+    value_template: "{{ is_state('group.phone_group_lynne', 'home') }}"
+
+  occupancy_status:
+    friendly_name: 'Master Presence'
+    # value_template: "{{ is_state('binary_sensor.gavin_presence', 'home')  or is_state('binary_sensor.rae_presence', 'home' ) or is_state('binary_sensor.claud_presence', 'home' ) or is_state('binary_sensor.lynne_presence', 'home' ) or is_state('binary_sensor.lily_presence', 'home' ) }}"
+    value_template: "{{ is_state('binary_sensor.gavin_presence', 'on')  or is_state('binary_sensor.rae_presence', 'on' ) or is_state('binary_sensor.claud_presence', 'on' ) or is_state('binary_sensor.lynne_presence', 'on' ) or is_state('binary_sensor.lily_presence', 'on' ) }}"
